@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N8N-Chat</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Bulle -->
+    <button class="chat-toggle" onclick="toggleChat()">
+        <span>Une question ?</span> <br>
+        Commencez votre projet
+        <div class="msg-notif">2</div>
+        <div class="btn-img">
+            <img width="70" height="70" src="./images/logo_playmo.png" alt="Je-Rénove">
+        </div>
+        <img class="check-img" width="20" height="20" src="images/check.svg" alt="Connecté">
+    </button>
+    <!-- End Bulle -->
+
+    <!-- Chat window -->
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <div class="chat-header-title">
+                <img class="check-img" width="20" height="20" src="images/check.svg" alt="Connecté">
+                <img class="emeline-img" width="70" height="70" src="./images/logo_playmo.png" alt="Je-Rénove">
+                Emeline
+                <span class="chat-close" onclick="closeChat()">✖</span>
+            </div>
+            <div class="chat-header-subtitle">
+                Service Client Je-Rénove 24h/24 7j/7
+            </div>
+        </div>
+        <div class="chat-body" id="chatBody"></div>
+        <div class="chat-input">
+            <textarea type="text" id="chatInput" placeholder="Votre message..." rows="4"></textarea>
+            <button onclick="sendMessage()">
+                Envoyer
+                <svg width="30px" height="30px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+                    fill="#FFFFFF" stroke="#FFFFFF">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+                            sketch:type="MSPage">
+                            <g id="Icon-Set-Filled" sketch:type="MSLayerGroup"
+                                transform="translate(-570.000000, -257.000000)" fill="#FFFFFF">
+                                <path
+                                    d="M580.407,278.75 C581.743,281.205 586,289 586,289 C586,289 601.75,258.5 602,258 L602.02,257.91 L580.407,278.75 L580.407,278.75 Z M570,272 C570,272 577.298,276.381 579.345,277.597 L601,257 C598.536,258.194 570,272 570,272 L570,272 Z"
+                                    id="send-email" sketch:type="MSShapeGroup"> </path>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <!-- End Chat window -->
+    <script src="js/toggle.js" type="text/javascript"></script>
+    <script src="js/chat.js" type="text/javascript"></script>
+    <script src="js/enter.js" type="text/javascript"></script>
+</body>
