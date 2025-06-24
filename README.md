@@ -97,3 +97,92 @@ MIT License. Free to use and modify. Attribution appreciated but not required.
 ## 🙋‍♀️ About
 
 Developed for Je-Rénove to provide a lightweight customer support experience using n8n.
+
+## 📘 File-by-File Documentation
+
+### 📄 `index.html`
+
+**Purpose**: Main structure of the chat widget, containing:
+
+- The floating chat bubble  
+- The chat window (header, body, input)  
+- Linked scripts and resources  
+
+**Snippet**:
+```html
+<button class="chat-toggle" onclick="toggleChat()">
+  ...
+</button>
+
+<div class="chat-window" id="chatWindow">
+  ...
+</div>
+```
+
+### 📄 `js/chat.js`
+
+**Purpose**: Core logic for:
+
+- Sending/receiving messages  
+- Displaying loading indicators  
+- Managing session (via `localStorage`)  
+- Fetching message history from n8n  
+- Playing sounds  
+
+**Key Function**:
+```javascript
+async function sendMessage() {
+  ...
+  const response = await fetch("https://...", {
+    ...
+    body: JSON.stringify({
+      action: "sendMessage",
+      chatInput: messageText,
+      metadata: { sessionId: getSessionId() }
+    }),
+  });
+  ...
+}
+```
+
+### 📄 `js/enter.js`
+
+**Purpose**: Enables sending messages by pressing **Enter** (without **Shift**).
+
+**Code**:
+```javascript
+document.getElementById("chatInput").addEventListener("keydown", function (e) {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+```
+
+### 📄 `js/toggle.js`
+
+**Purpose**: Opens or closes the chat interface.
+
+**Code**:
+```javascript
+function toggleChat() {
+  document.getElementById("chatWindow").classList.add("show");
+  document.querySelector(".chat-toggle").style.display = "none";
+}
+
+function closeChat() {
+  document.getElementById("chatWindow").classList.remove("show");
+  document.querySelector(".chat-toggle").style.display = "block";
+}
+```
+
+### 🎨 `css/style.css`
+
+**Purpose**: Handles all UI styling, including:
+
+- Button and chat layout  
+- Responsive display  
+- Animations and effects  
+- Custom colors, spacing, and fonts  
+
+💡 *You can modify this file to customize the theme and layout of the widget.*
