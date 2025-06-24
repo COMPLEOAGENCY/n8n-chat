@@ -42,7 +42,7 @@ const response = await fetch("https://your-n8n-instance/webhook/your-endpoint/ch
     metadata: { sessionId: getSessionId() }
   }),
 });
-
+```
 4. Embed the widget in any HTML page or load it via `<iframe>` if needed.
 
 ---
