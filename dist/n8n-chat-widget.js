@@ -30,8 +30,8 @@ class N8NChat extends HTMLElement {
 
   async loadTemplate() {
     const [html, css] = await Promise.all([
-      fetch("https://clubtravaux.net/library/n8n/n8n.html").then(res => res.text()),
-      fetch("https://clubtravaux.net/library/n8n/n8n.css").then(res => res.text())
+      fetch("https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.0/n8n.html").then(res => res.text()),
+      fetch("https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.0/dist/n8n.css").then(res => res.text())
     ]);
 
     const template = document.createElement("template");
