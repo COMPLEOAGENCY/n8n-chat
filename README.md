@@ -22,14 +22,14 @@ A lightweight, embeddable chat widget built in vanilla JavaScript and HTML/CSS. 
 1. Clone or download this repository.
 2. Copy the following folders and files into your project:
 
-   - `index.html`
-   - `n8n.css`
-   - `n8n-chat-widget.js`
+   - `n8n.html`
+   - `dist/n8n.css`
+   - `dist/n8n-chat-widget.js`
 
 3. Add your assets:
 
-   - `audio/notify.mp3` – or provide a direct URL to your own notification sound
-   - `images/logo_playmo.png` – or use your own avatar/logo image
+   - `dist/audio/notify.mp3` – or provide a direct URL to your own notification sound
+   - `dist/images/logo_playmo.png` – or use your own avatar/logo image
 
    > 🗂️ **Note**: In this project, audio and image files are hosted externally on S3.  
    > You can either do the same (use direct links in the code), or place them in local `audio/` and `images/` folders within your project and update the paths accordingly.
@@ -68,14 +68,14 @@ You can customize:
 
 ## 🧩 Embedding Options
 
-- **Standard HTML integration:**
+- **Standard HTML Local integration:**
 
   ```html
   <n8n-chat></n8n-chat>
   <script src="your/path/to/n8n-chat-widget.js"></script>
   ```
 
-## Or inject it directly into the DOM as a component if integrated into your own app.
+## Or inject with CDN
 
 ---
 
