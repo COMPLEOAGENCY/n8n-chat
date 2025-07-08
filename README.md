@@ -21,29 +21,36 @@ A lightweight, embeddable chat widget built in vanilla JavaScript and HTML/CSS. 
 
 1. Clone or download this repository.
 2. Copy the following folders and files into your project:
-   - `index.html`
-   - `css/style.css`
-   - `js/chat.js`
-   - `js/toggle.js`
-   - `js/enter.js`
-   - `images/` folder (for icons and branding)
-   - `audio/notification.mp3` (notification sound)
 
-3. Replace the webhook URL in `chat.js`:
+   - `index.html`
+   - `n8n.css`
+   - `n8n-chat-widget.js`
+
+3. Add your assets:
+
+   - `audio/notify.mp3` – or provide a direct URL to your own notification sound
+   - `images/logo_playmo.png` – or use your own avatar/logo image
+
+   > 🗂️ **Note**: In this project, audio and image files are hosted externally on S3.  
+   > You can either do the same (use direct links in the code), or place them in local `audio/` and `images/` folders within your project and update the paths accordingly.
+
+4. Replace the webhook URL in `n8n-chat-widget.js`:
 
 ```javascript
-const response = await fetch("https://your-n8n-instance/webhook/your-endpoint/chat", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    action: "sendMessage",
-    sessionId: null,
-    chatInput: messageText,
-    metadata: { sessionId: getSessionId() }
-  }),
-});
+const response = await fetch(
+  "https://your-n8n-instance/webhook/your-endpoint/chat",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "sendMessage",
+      sessionId: null,
+      chatInput: messageText,
+      metadata: { sessionId: getSessionId() },
+    }),
+  }
+);
 ```
-4. Embed the widget in any HTML page or load it via `<iframe>` if needed.
 
 ---
 
@@ -51,46 +58,43 @@ const response = await fetch("https://your-n8n-instance/webhook/your-endpoint/ch
 
 You can customize:
 
-- **Avatar:** in the HTML (`logo_playmo.png`)  
-- **Assistant name:** change "Emeline" to your agent's name  
-- **Welcome messages:** in `chat.js` → `showWelcomeMessages()`  
-- **Webhook endpoint:** in the fetch call inside `chat.js`  
-- **UI design:** edit `css/style.css`  
+- **Avatar:** in the HTML (`logo_playmo.png`)
+- **Assistant name:** change "Emeline" to your agent's name
+- **Welcome messages:** in `n8n-chat-widget.js` → `showWelcomeMessages()`
+- **Webhook endpoint:** in the fetch call inside `n8n-chat-widget.js`
+- **UI design:** edit `n8n.css`
 
 ---
 
-## 🧩 Embed in External Sites
+## 🧩 Embedding Options
 
-You can embed the widget via an iframe:
+- **Standard HTML integration:**
 
-```html
-<iframe src="https://yourdomain.com/n8n-chat.html" width="400" height="600" style="border: none;"></iframe>
-```
-Or inject it directly into the DOM as a component if integrated into your own app.
+  ```html
+  <n8n-chat></n8n-chat>
+  <script src="your/path/to/n8n-chat-widget.js"></script>
+  ```
+
+## Or inject it directly into the DOM as a component if integrated into your own app.
+
 ---
 
 ## 🧠 Dependencies
 
 This project is built with:
 
-- Vanilla JS (no frameworks)  
-- CSS3  
-- An n8n backend to process and respond to messages via webhook  
+- Vanilla JS (no frameworks, no dependencies)
+- CSS3
+- An n8n backend to process and respond to messages via webhook
 
 ---
 
 ## 📦 Future Improvements
 
-- ✨ Web Component or NPM packaging  
-- 🌐 i18n support (multi-language)  
-- 💬 Real-time capabilities via WebSocket  
-- 🧾 Chat transcript download/export  
-
----
-
-## 📄 License
-
-MIT License. Free to use and modify. Attribution appreciated but not required.
+- ✨ Web Component
+- 🌐 i18n support (multi-language)
+- 💬 Real-time capabilities via WebSocket
+- 🧾 Chat transcript download/export
 
 ---
 
@@ -102,69 +106,53 @@ Developed for Je-Rénove to provide a lightweight customer support experience us
 
 ### 📄 `index.html`
 
-**Purpose**: Main structure of the chat widget, containing:
+**Purpose**: Defines the structure of the chat widget, including:
 
-- The floating chat bubble  
-- The chat window (header, body, input)  
-- Linked scripts and resources  
+- The floating chat bubble (`.chat-toggle`)
+- The main chat window (`#chatWindow`) with header, body, and input area
+- Script and CSS links
 
 **Snippet**:
-```html
-<button class="chat-toggle" onclick="toggleChat()">
-  ...
-</button>
 
-<div class="chat-window" id="chatWindow">
-  ...
-</div>
+```html
+<button class="chat-toggle" onclick="toggleChat()">...</button>
+<div class="chat-window" id="chatWindow">...</div>
 ```
 
-### 📄 `js/chat.js`
+### 📄 `n8n-chat-widget.js`
 
-**Purpose**: Core logic for:
+**Purpose**: Contains all widget logic, such as:
 
-- Sending/receiving messages  
-- Displaying loading indicators  
-- Managing session (via `localStorage`)  
-- Fetching message history from n8n  
-- Playing sounds  
+- Message sending and receiving (via `fetch` to your n8n webhook)
+- Typing indicator and loading states
+- Session management using `localStorage`
+- Auto-scroll, sound notification, message rendering
+- Toggle chat UI (`toggleChat()` / `closeChat()`)
+- Keyboard support: send message with **Enter** (unless **Shift** is held)
 
-**Key Function**:
+**Key Snippets**:
+
 ```javascript
 async function sendMessage() {
-  ...
   const response = await fetch("https://...", {
-    ...
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       action: "sendMessage",
       chatInput: messageText,
       metadata: { sessionId: getSessionId() }
     }),
   });
-  ...
+  // handle response...
 }
-```
 
-### 📄 `js/enter.js`
-
-**Purpose**: Enables sending messages by pressing **Enter** (without **Shift**).
-
-**Code**:
-```javascript
 document.getElementById("chatInput").addEventListener("keydown", function (e) {
   if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
     sendMessage();
   }
 });
-```
 
-### 📄 `js/toggle.js`
-
-**Purpose**: Opens or closes the chat interface.
-
-**Code**:
-```javascript
 function toggleChat() {
   document.getElementById("chatWindow").classList.add("show");
   document.querySelector(".chat-toggle").style.display = "none";
@@ -176,13 +164,24 @@ function closeChat() {
 }
 ```
 
-### 🎨 `css/style.css`
+### 🎨 `n8n.css`
 
-**Purpose**: Handles all UI styling, including:
+**Purpose:** Controls the widget's look and feel:
 
-- Button and chat layout  
-- Responsive display  
-- Animations and effects  
-- Custom colors, spacing, and fonts  
+- Floating button styles and layout
+- Responsive design (mobile/tablet/desktop)
+- Color themes, fonts, spacing, and animations
+- Chat window transitions and message formatting
 
-💡 *You can modify this file to customize the theme and layout of the widget.*
+💡 _Customize this file to match your site's branding._
+
+## 💡 Bonus
+
+- ![License](https://img.shields.io/badge/license-MIT-green)
+- 🔗 [Live Demo](https://clubtravaux.com)
+
+---
+
+## 📄 License
+
+MIT License. Free to use and modify. Attribution appreciated but not required.
