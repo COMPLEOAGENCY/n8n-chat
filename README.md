@@ -19,7 +19,7 @@ A lightweight, embeddable chat widget built in vanilla JavaScript and HTML/CSS. 
 
 ## 🛠️ Installation
 
-### Option 1 : Utilisation locale
+### Option 1 : Local utilisation
 
 1. Clone or download this repository.
 2. Copy the following folders and files into your project:
@@ -64,7 +64,7 @@ Example:
 
 ```html
 <n8n-chat></n8n-chat>
-<script src="https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.3/dist/n8n-chat-widget.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.4/dist/n8n-chat-widget.js"></script>
 ```
 
 ⚠️ Make sure to update webhook URLs inside the JS if needed, or configure your n8n backend to accept requests accordingly.
@@ -104,7 +104,7 @@ You can customize:
 - **Standard CDN integration:**
   ```html
   <n8n-chat></n8n-chat>
-  <script src="https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.3/dist/n8n-chat-widget.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.4/dist/n8n-chat-widget.js"></script>
   ```
 
 ## Or inject with CDN
