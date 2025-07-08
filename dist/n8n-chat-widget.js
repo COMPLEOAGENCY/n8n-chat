@@ -30,8 +30,8 @@ class N8NChat extends HTMLElement {
 
   async loadTemplate() {
     const [html, css] = await Promise.all([
-      fetch("https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.0/n8n.html").then(res => res.text()),
-      fetch("https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.0/dist/n8n.css").then(res => res.text())
+      fetch("https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@latest/n8n.html").then(res => res.text()),
+      fetch("https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@latest/dist/n8n.css").then(res => res.text())
     ]);
 
     const template = document.createElement("template");
@@ -109,7 +109,7 @@ class N8NChat extends HTMLElement {
   playNotificationSoundOnce() {
     if (!this.notificationSound) {
       this.notificationSound = new Audio(
-        "https://elasticbeanstalk-eu-west-2-459635205407.s3.dualstack.eu-west-2.amazonaws.com/n8n/notification.mp3"
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@latest/dist/audio/notification.mp3"
       );
 
       this.notificationSound
