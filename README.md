@@ -19,6 +19,8 @@ A lightweight, embeddable chat widget built in vanilla JavaScript and HTML/CSS. 
 
 ## 🛠️ Installation
 
+### Option 1 : Utilisation locale
+
 1. Clone or download this repository.
 2. Copy the following folders and files into your project:
 
@@ -34,7 +36,7 @@ A lightweight, embeddable chat widget built in vanilla JavaScript and HTML/CSS. 
    > 🗂️ **Note**: In this project, audio and image files are hosted externally on S3.  
    > You can either do the same (use direct links in the code), or place them in local `audio/` and `images/` folders within your project and update the paths accordingly.
 
-4. Replace the webhook URL in `n8n-chat-widget.js`:
+4. Replace the webhook URL in `n8n-chat-widget.js` (or use environment variables/config to customize).
 
 ```javascript
 const response = await fetch(
@@ -54,7 +56,29 @@ const response = await fetch(
 
 ---
 
+### Option 2 : Using CDN (recommended for easy integration)
+
+Instead of hosting files locally, you can load the widget assets directly from jsDelivr CDN.
+
+Example:
+
+```html
+<n8n-chat></n8n-chat>
+<script src="https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.3/dist/n8n-chat-widget.js"></script>
+```
+
+⚠️ Make sure to update webhook URLs inside the JS if needed, or configure your n8n backend to accept requests accordingly.
+This method avoids manual hosting and simplifies updates by just changing the version number in the CDN URL.
+
+---
+
 ## 🔧 Configuration
+
+**Note:**  
+ When using the CDN, if you need to update the webhook URL or other settings in `n8n-chat-widget.js`, you can either:
+
+- Fork and customize the repo then publish your own version on CDN, or
+- Host a small config script locally to override settings after loading the widget script.
 
 You can customize:
 
@@ -68,11 +92,19 @@ You can customize:
 
 ## 🧩 Embedding Options
 
+### You can embed the widget in two ways:
+
 - **Standard HTML Local integration:**
 
   ```html
   <n8n-chat></n8n-chat>
   <script src="your/path/to/n8n-chat-widget.js"></script>
+  ```
+
+- **Standard CDN integration:**
+  ```html
+  <n8n-chat></n8n-chat>
+  <script src="https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.3/dist/n8n-chat-widget.js"></script>
   ```
 
 ## Or inject with CDN
@@ -140,7 +172,7 @@ async function sendMessage() {
     body: JSON.stringify({
       action: "sendMessage",
       chatInput: messageText,
-      metadata: { sessionId: getSessionId() }
+      metadata: { sessionId: getSessionId() },
     }),
   });
   // handle response...
