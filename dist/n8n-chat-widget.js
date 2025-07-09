@@ -7,24 +7,29 @@ class N8NChat extends HTMLElement {
     const script = document.currentScript;
 
     if (script) {
-      this.n8nWebhookUrl = script.getAttribute("data-webhook-url") || "https://n8n.compleo.dev/webhook/fd0cb5d1-4fa0-4144-9e31-6f4408e2d231/chat";
+      this.n8nWebhookUrl =
+        script.getAttribute("data-webhook-url") ||
+        "https://n8n.compleo.dev/webhook/fd0cb5d1-4fa0-4144-9e31-6f4408e2d231/chat";
       this.brand = script.getAttribute("data-brand") || "Compléo";
       this.botName = script.getAttribute("data-bot-name") || "Émeline";
       this.customWelcome = script.getAttribute("data-welcome-message") || null;
+      this.brandLogoUrl =
+        script.getAttribute("data-brand-logo-url") ||
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.0/dist/images/logo_playmo.png";
 
       // 💡 Récupère et applique dynamiquement les variables CSS
       const cssVars = {
-        '--pills-color': script.getAttribute('data-pills-color'),
-        '--toggle-text': script.getAttribute('data-toggle-text'),
-        '--chat-header': script.getAttribute('data-chat-header'),
-        '--bubble-user-color': script.getAttribute('data-bubble-user-color'),
-        '--bubble-bot-color': script.getAttribute('data-bubble-bot-color'),
+        "--pills-color": script.getAttribute("data-pills-color"),
+        "--toggle-text": script.getAttribute("data-toggle-text"),
+        "--chat-header": script.getAttribute("data-chat-header"),
+        "--bubble-user-color": script.getAttribute("data-bubble-user-color"),
+        "--bubble-bot-color": script.getAttribute("data-bubble-bot-color"),
       };
 
       const cssBlock = Object.entries(cssVars)
         .filter(([_, value]) => value !== null)
         .map(([key, value]) => `${key}: ${value};`)
-        .join('\n');
+        .join("\n");
 
       if (cssBlock) {
         const style = document.createElement("style");
@@ -56,13 +61,33 @@ class N8NChat extends HTMLElement {
 
   async loadTemplate() {
     const [html, css] = await Promise.all([
-      fetch("https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.9/n8n.html").then(res => res.text()),
-      fetch("https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.9/dist/n8n.css").then(res => res.text())
+      fetch(
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.0/n8n.html"
+      ).then((res) => res.text()),
+      fetch(
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.0/dist/n8n.css"
+      ).then((res) => res.text()),
     ]);
 
     const template = document.createElement("template");
     template.innerHTML = `<style>${css}</style>${html}`;
     this.shadowRoot.appendChild(template.content.cloneNode(true));
+
+    // Mise à jour des textes dynamiques
+    const botNameEl = this.shadowRoot.getElementById("botNamePlaceholder");
+    if (botNameEl) botNameEl.textContent = this.botName || "Émeline";
+
+    const brandNameEl = this.shadowRoot.getElementById("brand-name");
+    if (brandNameEl) brandNameEl.textContent = this.brand || "Je-Rénove";
+
+    // Mise à jour des images dynamiques
+    const logoImgs = this.shadowRoot.querySelectorAll("img.emeline-img");
+    logoImgs.forEach((img) => {
+      img.src =
+        this.brandLogoUrl ||
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.0/dist/images/logo_playmo.png";
+      img.alt = this.brand || "Je-Rénove";
+    });
   }
 
   cacheDom() {
@@ -135,7 +160,7 @@ class N8NChat extends HTMLElement {
   playNotificationSoundOnce() {
     if (!this.notificationSound) {
       this.notificationSound = new Audio(
-        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.9/dist/audio/notification.mp3"
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.0/dist/audio/notification.mp3"
       );
 
       this.notificationSound
@@ -321,11 +346,9 @@ class N8NChat extends HTMLElement {
   }
 
   showWelcomeMessages() {
-    const welcome = this.customWelcome || `Bonjour je suis ${this.botName} de ${this.brand}`
-    this.appendMessage(
-      "bot",
-      welcome
-    );
+    const welcome =
+      this.customWelcome || `Bonjour je suis ${this.botName} de ${this.brand}`;
+    this.appendMessage("bot", welcome);
     this.appendMessage("bot", "Comment puis-je vous aider ?");
   }
 
