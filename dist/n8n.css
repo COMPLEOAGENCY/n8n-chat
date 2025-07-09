@@ -21,7 +21,7 @@ body {
 /* Bulle de chat */
 .chat-toggle {
   animation: gradient 3s ease infinite;
-  background: var(--linear-color);
+  background: var(--pills-color);
   background-size: 400% 400%;
   bottom: 100px;
   border: none;
