@@ -4,13 +4,39 @@ class N8NChat extends HTMLElement {
 
     this.attachShadow({ mode: "open" });
 
+    const script = document.currentScript;
+
+    if (script) {
+      this.n8nWebhookUrl = script.getAttribute("data-webhook-url") || "https://n8n.compleo.dev/webhook/fd0cb5d1-4fa0-4144-9e31-6f4408e2d231/chat";
+      this.brand = script.getAttribute("data-brand") || "Compléo";
+      this.botName = script.getAttribute("data-bot-name") || "Émeline";
+      this.customWelcome = script.getAttribute("data-welcome-message") || null;
+
+      // 💡 Récupère et applique dynamiquement les variables CSS
+      const cssVars = {
+        '--pills-color': script.getAttribute('data-pills-color'),
+        '--toggle-text': script.getAttribute('data-toggle-text'),
+        '--chat-header': script.getAttribute('data-chat-header'),
+        '--bubble-user-color': script.getAttribute('data-bubble-user-color'),
+        '--bubble-bot-color': script.getAttribute('data-bubble-bot-color'),
+      };
+
+      const cssBlock = Object.entries(cssVars)
+        .filter(([_, value]) => value !== null)
+        .map(([key, value]) => `${key}: ${value};`)
+        .join('\n');
+
+      if (cssBlock) {
+        const style = document.createElement("style");
+        style.innerHTML = `:root {\n${cssBlock}\n}`;
+        document.head.appendChild(style);
+      }
+    }
+
     this.chatHasBeenOpened = false;
     this.wizzIntervalId = null;
     this.notificationTimer = null;
     this.notificationSound = null;
-
-    this.n8nWebhookUrl =
-      "https://n8n.compleo.dev/webhook/fd0cb5d1-4fa0-4144-9e31-6f4408e2d231/chat";
 
     // Bind context
     this.toggleChat = this.toggleChat.bind(this);
@@ -30,8 +56,8 @@ class N8NChat extends HTMLElement {
 
   async loadTemplate() {
     const [html, css] = await Promise.all([
-      fetch("https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.6/n8n.html").then(res => res.text()),
-      fetch("https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.6/dist/n8n.css").then(res => res.text())
+      fetch("https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.7/n8n.html").then(res => res.text()),
+      fetch("https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.7/dist/n8n.css").then(res => res.text())
     ]);
 
     const template = document.createElement("template");
@@ -109,7 +135,7 @@ class N8NChat extends HTMLElement {
   playNotificationSoundOnce() {
     if (!this.notificationSound) {
       this.notificationSound = new Audio(
-        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.6/dist/audio/notification.mp3"
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.7/dist/audio/notification.mp3"
       );
 
       this.notificationSound
@@ -295,9 +321,10 @@ class N8NChat extends HTMLElement {
   }
 
   showWelcomeMessages() {
+    const welcome = this.customWelcome || `Bonjour je suis ${this.botName} de ${this.brand}`
     this.appendMessage(
       "bot",
-      "Bonjour, je m'appelle Émeline experte travaux chez je rénove."
+      welcome
     );
     this.appendMessage("bot", "Comment puis-je vous aider ?");
   }
