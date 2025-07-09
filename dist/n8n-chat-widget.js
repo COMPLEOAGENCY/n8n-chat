@@ -15,15 +15,15 @@ class N8NChat extends HTMLElement {
       this.customWelcome = script.getAttribute("data-welcome-message") || null;
       this.brandLogoUrl =
         script.getAttribute("data-brand-logo-url") ||
-        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.0/dist/images/logo_playmo.png";
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.1/dist/images/logo_playmo.png";
 
       // 💡 Récupère et applique dynamiquement les variables CSS
       const cssVars = {
-        "--pills-color": script.getAttribute("data-pills-color"),
-        "--toggle-text": script.getAttribute("data-toggle-text"),
-        "--chat-header": script.getAttribute("data-chat-header"),
-        "--bubble-user-color": script.getAttribute("data-bubble-user-color"),
-        "--bubble-bot-color": script.getAttribute("data-bubble-bot-color"),
+        "--pills-color": script.getAttribute("data-pills-color") || "linear-gradient(to bottom right, #2a41e8, #20c997, #2a41e8, #20c997)",
+        "--toggle-text": script.getAttribute("data-toggle-text") || "#FFFFFF",
+        "--chat-header": script.getAttribute("data-chat-header") ||"linear-gradient(to bottom right, #20c997, #2a41e8)",
+        "--bubble-user-color": script.getAttribute("data-bubble-user-color") || "#20c997",
+        "--bubble-bot-color": script.getAttribute("data-bubble-bot-color") || "#2a41e8",
       };
 
       const cssBlock = Object.entries(cssVars)
@@ -62,10 +62,10 @@ class N8NChat extends HTMLElement {
   async loadTemplate() {
     const [html, css] = await Promise.all([
       fetch(
-        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.0/n8n.html"
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.1/n8n.html"
       ).then((res) => res.text()),
       fetch(
-        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.0/dist/n8n.css"
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.1/dist/n8n.css"
       ).then((res) => res.text()),
     ]);
 
@@ -85,7 +85,7 @@ class N8NChat extends HTMLElement {
     logoImgs.forEach((img) => {
       img.src =
         this.brandLogoUrl ||
-        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.0/dist/images/logo_playmo.png";
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.1/dist/images/logo_playmo.png";
       img.alt = this.brand || "Je-Rénove";
     });
   }
@@ -160,7 +160,7 @@ class N8NChat extends HTMLElement {
   playNotificationSoundOnce() {
     if (!this.notificationSound) {
       this.notificationSound = new Audio(
-        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.0/dist/audio/notification.mp3"
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.1/dist/audio/notification.mp3"
       );
 
       this.notificationSound
