@@ -113,6 +113,7 @@ git clone https://github.com/COMPLEOAGENCY/n8n-chat.git
 
 ## 📁 Recommended Folder Structure
 
+```
 ├── dist/
 │ ├── n8n-chat-widget.js
 │ ├── n8n.css
@@ -120,6 +121,7 @@ git clone https://github.com/COMPLEOAGENCY/n8n-chat.git
 │ └── audio/
 ├── n8n.html
 └── index.html
+```
 
 ## 📦 Dependencies
 
