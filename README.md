@@ -1,219 +1,156 @@
-# N8N-Chat Widget
+# 💬 N8N Chat Widget
 
-A lightweight, embeddable chat widget built in vanilla JavaScript and HTML/CSS. Designed to communicate with an [n8n](https://n8n.io) workflow via a public webhook. Ideal for integrating basic customer support or automation agents directly into your website.
+A lightweight, responsive, and customizable chat widget built with Vanilla JS + HTML/CSS.  
+Allows connecting a website to an **n8n workflow** via a **public webhook**.
 
 ---
 
 ## 🚀 Features
 
-- 🗨️ Interactive chat bubble UI
-- 🔊 Notification sounds & animations
-- 💾 Session persistence using `localStorage`
-- 📩 Seamless integration with n8n via Webhook (POST)
-- 🧠 Welcome messages and typing indicator
-- 📜 Message history loading from n8n workflow
-- ⚡ Send messages with Enter key or button click
-- 📱 Fully responsive design
+- ✅ Encapsulated web component (`<n8n-chat>`)
+- 🔄 Direct communication with n8n via webhook (JSON POST)
+- 🧠 Customizable welcome message
+- 🧑‍💼 Dynamic bot name + brand name
+- 🎨 Fully themeable via HTML attributes
+- 🔊 Sound notifications
+- 💾 Session saved via `localStorage`
+- ⌨️ Send messages with Enter key or button click
+- 📱 Mobile and desktop responsive
+- ♿️ Accessibility (ARIA)
 
 ---
 
-## 🛠️ Installation
+## ⚙️ Quick Integration (via CDN)
 
-### Option 1 : Local utilisation
-
-1. Clone or download this repository.
-2. Copy the following folders and files into your project:
-
-   - `n8n.html`
-   - `dist/n8n.css`
-   - `dist/n8n-chat-widget.js`
-
-3. Add your assets:
-
-   - `dist/audio/notify.mp3` – or provide a direct URL to your own notification sound
-   - `dist/images/logo_playmo.png` – or use your own avatar/logo image
-
-   > 🗂️ **Note**: In this project, audio and image files are hosted externally on S3.  
-   > You can either do the same (use direct links in the code), or place them in local `audio/` and `images/` folders within your project and update the paths accordingly.
-
-4. Replace the webhook URL in `n8n-chat-widget.js` (or use environment variables/config to customize).
-
-```javascript
-const response = await fetch(
-  "https://your-n8n-instance/webhook/your-endpoint/chat",
-  {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      action: "sendMessage",
-      sessionId: null,
-      chatInput: messageText,
-      metadata: { sessionId: getSessionId() },
-    }),
-  }
-);
-```
-
----
-
-### Option 2 : Using CDN (recommended for easy integration)
-
-Instead of hosting files locally, you can load the widget assets directly from jsDelivr CDN.
-
-Example:
+Simply add this to your HTML:
 
 ```html
 <n8n-chat></n8n-chat>
-<script src="https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.6/dist/n8n-chat-widget.js"></script>
-```
 
-⚠️ Make sure to update webhook URLs inside the JS if needed, or configure your n8n backend to accept requests accordingly.
-This method avoids manual hosting and simplifies updates by just changing the version number in the CDN URL.
+<script
+  src="https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.1/dist/n8n-chat-widget.js"
+  data-webhook-url="https://n8n.compleo.dev/webhook/xxxxxxxx/chat"
+  data-brand="Je-rénove"
+  data-bot-name="Émeline"
+  data-brand-logo-url="https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.1/dist/images/logo_playmo.png"
+  data-pills-color="linear-gradient(to bottom right, #20c997, #2a41e8)"
+  data-toggle-text="#FFFFFF"
+  data-chat-header="linear-gradient(to right, #20c997, #2a41e8)"
+  data-bubble-user-color="#20c997"
+  data-bubble-bot-color="#2a41e8"
+  defer
+></script>
+````
+## 🧩 Customizable Attributes (`data-*`)
 
----
+| Attribute                | Description                                       | Example                                                                 |
+|--------------------------|-------------------------------------------------|-------------------------------------------------------------------------|
+| `data-webhook-url`       | Public URL of your n8n webhook                   | `https://n8n.yourserver.com/webhook/xyz`                               |
+| `data-brand`             | Company name displayed                            | `Je-rénove`                                                             |
+| `data-bot-name`          | Bot name shown in the header and welcome message| `Émeline`                                                               |
+| `data-brand-logo-url`    | Logo displayed in the chat bubble and header     | `https://.../logo.png`                                                  |
+| `data-pills-color`       | Color of the open button (gradient allowed)      | `linear-gradient(to bottom right, #20c997, #2a41e8)`                   |
+| `data-toggle-text`       | Color of the text on the open button              | `#FFFFFF`                                                               |
+| `data-chat-header`       | Background of the chat header                      | `linear-gradient(to right, #20c997, #2a41e8)`                          |
+| `data-bubble-user-color` | Color of user message bubbles                      | `#20c997`                                                               |
+| `data-bubble-bot-color`  | Color of bot message bubbles                       | `#2a41e8`                                                               |
 
-## 🔧 Configuration
-
-**Note:**  
- When using the CDN, if you need to update the webhook URL or other settings in `n8n-chat-widget.js`, you can either:
-
-- Fork and customize the repo then publish your own version on CDN, or
-- Host a small config script locally to override settings after loading the widget script.
-
-You can customize:
-
-- **Avatar:** in the HTML (`logo_playmo.png`)
-- **Assistant name:** change "Emeline" to your agent's name
-- **Welcome messages:** in `n8n-chat-widget.js` → `showWelcomeMessages()`
-- **Webhook endpoint:** in the fetch call inside `n8n-chat-widget.js`
-- **UI design:** edit `n8n.css`
-
----
-
-## 🧩 Embedding Options
-
-### You can embed the widget in two ways:
-
-- **Standard HTML Local integration:**
-
-  ```html
-  <n8n-chat></n8n-chat>
-  <script src="your/path/to/n8n-chat-widget.js"></script>
-  ```
-
-- **Standard CDN integration:**
-  ```html
-  <n8n-chat></n8n-chat>
-  <script src="https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.0.6/dist/n8n-chat-widget.js"></script>
-  ```
-
-## Or inject with CDN
+> 🧠 **Note**: If an attribute is missing, a default value will be applied.
 
 ---
 
-## 🧠 Dependencies
+## 🎨 Theme (via dynamic CSS variables)
 
-This project is built with:
+The widget dynamically injects a `<style>` block with the following CSS variables:
 
-- Vanilla JS (no frameworks, no dependencies)
-- CSS3
-- An n8n backend to process and respond to messages via webhook
+```css
+:root {
+  --pills-color: ...;
+  --toggle-text: ...;
+  --chat-header: ...;
+  --bubble-user-color: ...;
+  --bubble-bot-color: ...;
+}
+````
+These values are automatically derived from the data-* attributes on the script tag if provided.
 
----
-
-## 📦 Future Improvements
-
-- ✨ Web Component
-- 🌐 i18n support (multi-language)
-- 💬 Real-time capabilities via WebSocket
-- 🧾 Chat transcript download/export
-
----
-
-## 🙋‍♀️ About
-
-Developed for Je-Rénove to provide a lightweight customer support experience using n8n.
-
-## 📘 File-by-File Documentation
-
-### 📄 `index.html`
-
-**Purpose**: Defines the structure of the chat widget, including:
-
-- The floating chat bubble (`.chat-toggle`)
-- The main chat window (`#chatWindow`) with header, body, and input area
-- Script and CSS links
-
-**Snippet**:
+## 💡 Minimal Example
 
 ```html
-<button class="chat-toggle" onclick="toggleChat()">...</button>
-<div class="chat-window" id="chatWindow">...</div>
-```
+<n8n-chat></n8n-chat>
 
-### 📄 `n8n-chat-widget.js`
+<script
+  src="https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.1/dist/n8n-chat-widget.js"
+  data-webhook-url="https://n8n.mysite.com/webhook/xyz"
+  data-brand="MyCompany"
+  data-bot-name="Alex"
+  defer
+></script>
+````
 
-**Purpose**: Contains all widget logic, such as:
+## 🧠 How It Works
 
-- Message sending and receiving (via `fetch` to your n8n webhook)
-- Typing indicator and loading states
-- Session management using `localStorage`
-- Auto-scroll, sound notification, message rendering
-- Toggle chat UI (`toggleChat()` / `closeChat()`)
-- Keyboard support: send message with **Enter** (unless **Shift** is held)
+- The floating button triggers the chat window to open.
+- Each user message is sent via `POST` to your configured **n8n webhook URL**.
+- The n8n workflow responds with JSON in the following format:
 
-**Key Snippets**:
-
-```javascript
-async function sendMessage() {
-  const response = await fetch("https://...", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      action: "sendMessage",
-      chatInput: messageText,
-      metadata: { sessionId: getSessionId() },
-    }),
-  });
-  // handle response...
+```json
+{
+  "messages": [
+    "Hello 👋",
+    "How can I help you today?"
+  ]
 }
+````
+The widget dynamically renders the received messages in the chat UI.
 
-document.getElementById("chatInput").addEventListener("keydown", function (e) {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-});
 
-function toggleChat() {
-  document.getElementById("chatWindow").classList.add("show");
-  document.querySelector(".chat-toggle").style.display = "none";
-}
+## 🛠️ Local Development
 
-function closeChat() {
-  document.getElementById("chatWindow").classList.remove("show");
-  document.querySelector(".chat-toggle").style.display = "block";
-}
-```
+```bash
+git clone https://github.com/COMPLEOAGENCY/n8n-chat.git
+````
 
-### 🎨 `n8n.css`
+## 📁 Recommended Folder Structure
 
-**Purpose:** Controls the widget's look and feel:
+├── dist/
+│ ├── n8n-chat-widget.js
+│ ├── n8n.css
+│ ├── images/
+│ └── audio/
+├── n8n.html
+└── index.html
 
-- Floating button styles and layout
-- Responsive design (mobile/tablet/desktop)
-- Color themes, fonts, spacing, and animations
-- Chat window transitions and message formatting
+## 📦 Dependencies
 
-💡 _Customize this file to match your site's branding._
+No external dependencies.  
+The widget is built entirely with:
 
-## 💡 Bonus
-
-- ![License](https://img.shields.io/badge/license-MIT-green)
-- 🔗 [Live Demo](https://clubtravaux.com)
+- ✅ **Vanilla JavaScript**
+- 🎨 **CSS3**
+- 🔧 **Native Web Components**
 
 ---
 
-## 📄 License
+## 🧾 Roadmap (Coming Soon)
 
-MIT License. Free to use and modify. Attribution appreciated but not required.
+- 🔄 WebSocket support for real-time communication  
+- 🌍 Multilingual / i18n support  
+- 📎 File attachment (upload) support  
+- 🧾 Download/export chat transcript
+
+---
+
+## 📘 License
+
+**MIT** — Free to use and modify.  
+Attribution is appreciated but not required.  
+Made with ❤️ by **Compléo Agency**
+
+---
+
+## 🔗 Useful Links
+
+- 🌐 [n8n.io](https://n8n.io)
+- 💬 [Live Demo — ClubTravaux](https://clubtravaux.com)
+- 📦 [jsDelivr CDN](https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@latest/)
