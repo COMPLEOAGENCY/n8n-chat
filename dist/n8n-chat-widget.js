@@ -15,7 +15,7 @@ class N8NChat extends HTMLElement {
       this.customWelcome = script.getAttribute("data-welcome-message") || null;
       this.brandLogoUrl =
         script.getAttribute("data-brand-logo-url") ||
-        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.1/dist/images/logo_playmo.png";
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.3/dist/images/logo_playmo.png";
 
       // 💡 Récupère et applique dynamiquement les variables CSS
       const cssVars = {
@@ -62,10 +62,10 @@ class N8NChat extends HTMLElement {
   async loadTemplate() {
     const [html, css] = await Promise.all([
       fetch(
-        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.1/n8n.html"
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.3/n8n.html"
       ).then((res) => res.text()),
       fetch(
-        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.1/dist/n8n.css"
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.3/dist/n8n.css"
       ).then((res) => res.text()),
     ]);
 
@@ -85,7 +85,7 @@ class N8NChat extends HTMLElement {
     logoImgs.forEach((img) => {
       img.src =
         this.brandLogoUrl ||
-        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.1/dist/images/logo_playmo.png";
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.3/dist/images/logo_playmo.png";
       img.alt = this.brand || "Je-Rénove";
     });
   }
@@ -160,7 +160,7 @@ class N8NChat extends HTMLElement {
   playNotificationSoundOnce() {
     if (!this.notificationSound) {
       this.notificationSound = new Audio(
-        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.1/dist/audio/notification.mp3"
+        "https://cdn.jsdelivr.net/gh/COMPLEOAGENCY/n8n-chat@v1.1.3/dist/audio/notification.mp3"
       );
 
       this.notificationSound
